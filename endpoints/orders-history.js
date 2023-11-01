@@ -4,16 +4,16 @@ const { secret } = require('../config.js')
 
 router.get('/', validateToken(secret), (req, res) => {
   const { email } = req.body
-  const orders = router.db.get('orders')
+  const orders = router.db.get('orders').__wrapped__.orders
 
-  const ordersUser = orders.filter(order => {
+  const ordersUser = orders.filter((order) => {
     return order.email === email
   })
 
   if (ordersUser.length === 0) {
-    res.send({ result: 'NO-ORDERS', message: 'There are no orders' })
+    res.send({ message: 'There are NO orders' })
   } else {
-    res.send({ result: ordersUser.length, message: 'There are orders', data: ordersUser})
+    res.send({ message: `There are ${ordersUser.length} orders`, data: ordersUser })
   }
 })
 
