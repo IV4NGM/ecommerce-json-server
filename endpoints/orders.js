@@ -4,7 +4,7 @@ const { secret } = require('../config.js')
 
 router.post('/', validateToken(secret), (req, res) => {
   const orders = router.db.get('orders')
-  const previousID = orders[0].orderId || 100
+  const previousID = orders[0]?.orderId || 100
   const orderId = previousID + 1
 
   const item = req.body
