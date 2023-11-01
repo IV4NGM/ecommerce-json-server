@@ -11,6 +11,8 @@ const registerEndpoint = require('./endpoints/register')
 const itemsEndpoint = require('./endpoints/items')
 const usersEndpoint = require('./endpoints/users')
 const meEndpoint = require('./endpoints/me')
+const ordersEndpoint = require('./endpoints/orders')
+const ordersHistoryEndpoint = require('./endpoints/orders-history')
 
 const PORT = process.env.PORT || 3000
 
@@ -34,6 +36,8 @@ itemsEndpoint.db = router.db
 loginEndpoint.db = router.db
 registerEndpoint.db = router.db
 meEndpoint.db = router.db
+ordersEndpoint.db = router.db
+ordersHistoryEndpoint.db = router.db
 
 // Ruta '/login' manejada por el endpoint login.js
 server.use('/login', loginEndpoint)
@@ -49,6 +53,10 @@ server.use('/users', usersEndpoint)
 
 // Ruta '/me' manejada por el endpoint me.js
 server.use('/me', meEndpoint)
+
+server.use('/orders', ordersEndpoint)
+
+server.use('/orders-history', ordersHistoryEndpoint)
 
 server.use(router)
 
