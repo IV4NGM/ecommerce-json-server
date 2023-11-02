@@ -4,12 +4,20 @@ const { secret } = require('../config.js')
 
 router.delete('/', validateToken(secret), (req, res) => {
   const { id } = req.body
+
   if (!id) {
     res.status(400).send({
       message: 'A valid ID must be provided'
     })
     return
   }
+
+  const { role } = req.user // Obtener el rol del usuario desde el token decodificado
+
+  if (role !== 'ADMIN') {
+    return res.status(403).send({ message: 'Forbidden. Only ADMIN can delete items.' })
+  }
+
   const items = router.db.getState().items
 
   const index = items.findIndex(product => product.id === id)
