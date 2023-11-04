@@ -18,7 +18,7 @@ router.post('/', (req, res) => {
     updatedAt
   } = req.body
 
-  if (!email || !password || (gender !== 'M' && gender !== 'F')) {
+  if (!email || !password || (gender !== 'M' && gender !== 'F' && gender !== 'O')) {
     res.sendStatus(400)
     return
   }
