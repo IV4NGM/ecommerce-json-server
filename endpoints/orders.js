@@ -8,11 +8,11 @@ router.post('/', validateToken(secret), (req, res) => {
   const orders = router.db.getState().orders
   const previousID = orders[0]?.orderId || 100
   const orderId = previousID + 1
-  const currentDate = new Date().toLocaleDateString()
-  const currentTime = new Date().toLocaleTimeString()
+  const orderDate = new Date().toLocaleDateString()
+  const orderTime = new Date().toLocaleTimeString()
 
   const item = req.body
-  const order = { ...item, orderId, userId, currentDate, currentTime }
+  const order = { ...item, orderId, userId, orderDate, orderTime }
   router.db.get('orders').unshift(order).write()
   res.send({ message: 'Order created successfully', data: order })
 })
