@@ -17,7 +17,7 @@ router.get('/', validateToken(secret), (req, res) => {
   })
 
   if (ordersUser.length === 0) {
-    res.status(404).send({ message: 'There are NO orders' })
+    res.status(200).send({ message: 'There are NO orders', data: [] })
   } else {
     res.status(200).send({ message: `There are ${ordersUser.length} orders`, data: ordersUser })
   }
