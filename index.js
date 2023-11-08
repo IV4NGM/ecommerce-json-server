@@ -14,6 +14,7 @@ const meEndpoint = require('./endpoints/me')
 const ordersEndpoint = require('./endpoints/orders')
 const ordersHistoryEndpoint = require('./endpoints/orders-history')
 const removeEndpoint = require('./endpoints/remove')
+const editEndpoint = require('./endpoints/edit')
 
 const PORT = process.env.PORT || 3000
 
@@ -40,6 +41,7 @@ meEndpoint.db = router.db
 ordersEndpoint.db = router.db
 ordersHistoryEndpoint.db = router.db
 removeEndpoint.db = router.db
+editEndpoint.db = router.db
 
 // Ruta '/login' manejada por el endpoint login.js
 server.use('/login', loginEndpoint)
@@ -61,6 +63,8 @@ server.use('/orders', ordersEndpoint)
 server.use('/orders-history', ordersHistoryEndpoint)
 
 server.use('/remove', removeEndpoint)
+
+server.use('/edit', editEndpoint)
 
 server.use(router)
 
