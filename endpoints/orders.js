@@ -8,8 +8,8 @@ router.post('/', validateToken(secret), (req, res) => {
   const orders = router.db.getState().orders
   const previousID = orders[0]?.orderId || 100
   const orderId = previousID + 1
-  const orderDate = new Date().toLocaleDateString()
-  const orderTime = new Date().toLocaleTimeString()
+  const orderDate = new Date().toDateString()
+  const orderTime = new Date().toTimeString()
 
   const item = req.body
   const order = { ...item, orderId, userId, orderDate, orderTime }
