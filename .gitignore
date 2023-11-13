@@ -41,3 +41,5 @@ coverage
 
 # Benchmarking
 benchmarks/graphs
+
+new-items.json
