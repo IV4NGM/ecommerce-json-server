@@ -1,39 +1,17 @@
 # Mock de API con Autenticación usando JWT
 
-El objetivo es crear un mock de una API Rest de eCommerce que haga uso de autenticación con JWT y cuente con algunas rutas protegidas.
-
-Para usarlo:
-1) Haz git clone del repositorio: `git clone https://github.com/warderer/json-server-jwt.git`
-2) Desde la terminal, recuerda entrar a la carpeta del proyecto: `cd json-server-jwt`
-3) Instala las dependencias con el comando: `npm install`
-4) Ejecuta el servidor con el comando: `npm run start`
-
-## Despliegue en Render (opcional)
-Si lo deseas puedes hacer deployment de este repositorio en tu cuenta de Render:
-1) Crea una cuenta en [Render](https://render.com/) e inicia sesión.
-2) Una vez iniciada la sesión, ve a la página de "Dashboard", y luego ubica el apartado de "Web Services" y haz click en el botón "New Web Service".
-3) En la siguiente pantalla de "Create a New Service", utiliza la segunda opción "Public Web Repository", coloca en la casilla la url del repo de github (https://github.com/warderer/json-server-jwt) y haz click en el botón "Continue".
-4) En la siguiente pantalla de "You are deploying a web service for warderer/json-server-jwt" deberás rellenar la siguiente información:
-   - **Name:** Nombre del proyecto, sin espacios ni carácteres especiales. Debe ser único ya que la url se generará a partir de esto.
-   - **Region:** Ubicación físical del servidor. Elije el más cercano a tu ubicación o deja el valor por defecto.
-   - **Branch:** Debe estar en main.
-   - **Runtime:** Elige Node.
-   - **Build Command:** Escribe: npm install
-   - **Start Command:** Escribe: npm run start
-   - **Instance Type:** Deja la opción por defecto de "Free" (Gratis).
-5) Finalmente haz click en el botón de Create Web Service al final de la página y a esperar que se haga el deployment.
-6) Una vez terminado el deployment, podrás ver la URL para acceder a tu API en la esquina superior izquierda de la pantalla de la página de Render.
-
-**Nota: Recuerda que en el plan gratuito de Render, si el servidor pasa mucho tiempo en inactividad se "dormirá" por lo que cuando hagas una primera petición este puede tardar un poco en contestar por que esta "levantandose", después de esto responderá normal mientras siga en uso (permanezca despierto).**
+Este repositorio está basado en el repositorio [json-server-jwt](https://github.com/warderer/json-server-jwt "https://github.com/warderer/json-server-jwt") de [César Guerra](https://github.com/warderer "https://github.com/warderer"). La API aquí creada ha sido utilizada para crear mi ecommerce con React: [Eagle-Market](https://github.com/IV4NGM/Eagle-Market "https://github.com/IV4NGM/Eagle-Market").
 
 ## Endpoints
+
 Por defecto el servidor se ejecuta en: http://localhost:3000
 
-Donde existen las rutas de `items` y de `users`
+Existen las rutas de `items` y de `users`.
 
 ### users
 
 #### Register
+
 `POST`
 `/register`
 
@@ -47,22 +25,29 @@ Donde existen las rutas de `items` y de `users`
   "role": "CUSTOMER"
 }
 ```
-Al crearse un registro, automaticamente la API creará los campos `id`, `createdAt` y `updatedAt`.
+
+El registro requiere que el campo `gender` sea igual a `'O'`, `'M'` o `'F'`.
+
+Al crearse un registro, automáticamente la API creará los campos `id`, `createdAt` y `updatedAt`.
 Si no se especifica un `role`, como por ejemplo `ADMIN`, entonces por defecto será `CUSTOMER`.
 El correo es único, si se repite devolverá error al intentar registrar uno ya creado anteriormente.
 
 #### Login
+
 `POST`
 `/login`
+
 ```
 {
   "email": "drstrange@marvel.com",
   "password": "multiverso"
 }
 ```
-Al iniciar sesión se devolvera un JWT que contiene, entre otras cosas el `id` y `role` del usuario en el payload.
+
+Al iniciar sesión se devolverá un JWT que contiene, entre otras cosas, el `id` y `role` del usuario en el payload.
 
 #### getAllUsers
+
 `GET`
 `/users`
 
@@ -72,6 +57,7 @@ Al iniciar sesión se devolvera un JWT que contiene, entre otras cosas el `id` y
 Solo un usuario de `type: "ADMIN"` puede visualizar el listado de usuarios.
 
 #### getOneUser
+
 `GET`
 `/users/:id`
 
@@ -81,17 +67,19 @@ Solo un usuario de `type: "ADMIN"` puede visualizar el listado de usuarios.
 Solo un usuario de `type: "ADMIN"` puede visualizar el detalle de un usuario por id.
 
 #### me
+
 `GET`
 `/users/me`
 
 `headers: AUTHORIZATION`
 `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFjMzExNTUxLTA3NGEtNDIyNi05NzU4LWYwNzgwYzQyNzYxMiIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTY3NDk2MDMxNH0.5Ee8qu7YYcv0Egc2MOj8PQKMA0QHEf3shn0gnZuR-iA`
 
-Devolverá la información del usuario actual de acuerdo al Token proporcionado.
+Devolverá la información del usuario actual de acuerdo al token proporcionado.
 
 ### items
 
 #### createItem
+
 `POST`
 `/items`
 
@@ -109,33 +97,115 @@ Devolverá la información del usuario actual de acuerdo al Token proporcionado.
     "image": "https://i.pinimg.com/originals/eb/83/be/eb83be580847bcdc4c8f403c8085d3c8.jpg"
 }
 ```
+
 Debe haberse iniciado sesión y enviar el token en la cabecera de la petición para que pueda ser creado un producto.
 
 #### getAllItems
+
 `GET`
 `/items`
 Lista todos los Items.
 
-#### GetOneItem
+#### getOneItem
+
 `GET`
 `/items/:id`
 Devuelve un solo item de acuerdo al id proporcionado.
 
+#### editItem
+
+`PUT`
+
+`/edit/:id`
+
+`headers: AUTHORIZATION`
+`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFjMzExNTUxLTA3NGEtNDIyNi05NzU4LWYwNzgwYzQyNzYxMiIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTY3NDk2MDMxNH0.5Ee8qu7YYcv0Egc2MOj8PQKMA0QHEf3shn0gnZuR-iA`
+
+```
+{
+    "product_name": "NewProductName",
+    "description": "NewDescription",
+    "price": 000,
+    "category": "NewCategory",
+    "brand": "NewBrand",
+    "sku": "NewSku",
+    "image": "NewImage"
+}
+```
+
+El usuario deberá ser tipo `ADMIN`. Si algún parámetro no se incluye en el `body`, la información de este parámetro en el nuevo item se establece como la misma que en el item anterior. Es decir, se pueden modificar solo ciertos parámetros sin necesidad de incluirlos todos en el `body`.
+
+#### removeItem
+
+`DELETE`
+
+`/remove`
+
+`headers: AUTHORIZATION`
+`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFjMzExNTUxLTA3NGEtNDIyNi05NzU4LWYwNzgwYzQyNzYxMiIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTY3NDk2MDMxNH0.5Ee8qu7YYcv0Egc2MOj8PQKMA0QHEf3shn0gnZuR-iA`
+
+```
+{
+	"id" : "YourProductID"
+}
+```
+
+
+### Historial de compras
+
+La API incluye también métodos para almacenar y obtener el historial de compras de un usuario.
+
+#### postOrder
+
+`POST`
+
+`/orders`
+
+`headers: AUTHORIZATION`
+`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFjMzExNTUxLTA3NGEtNDIyNi05NzU4LWYwNzgwYzQyNzYxMiIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTY3NDk2MDMxNH0.5Ee8qu7YYcv0Egc2MOj8PQKMA0QHEf3shn0gnZuR-iA`
+
+```
+{
+	"products" : [{product1Object}, {product2Object}],
+	"products_amount": 5,
+	"total_price": 1250
+}
+```
+
+#### getHistory
+
+`GET`
+
+`/orders-history`
+
+`headers: AUTHORIZATION`
+`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFjMzExNTUxLTA3NGEtNDIyNi05NzU4LWYwNzgwYzQyNzYxMiIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTY3NDk2MDMxNH0.5Ee8qu7YYcv0Egc2MOj8PQKMA0QHEf3shn0gnZuR-iA`
+
+Devuelve el historial de productos del usuario con el token dado.
+
+
 ## Usuarios de prueba
+
 Por defecto la API ya viene con 2 usuarios para poder comenzar a probar inmediatamente:
 
 ### Usuario tipo "CUSTOMER"
+
 ```
 {
-  "email": "drstrange@marvel.com",
-  "password": "multiverso"
+  "email": "user@mail.com",
+  "password": "user0"
 }
 ```
 
 ### Usuario tipo "ADMIN"
+
 ```
 {
-  "email": "superman@dc.com",
-  "password": "superman"
+  "email": "admin@mail.com",
+  "password": "admin0"
 }
 ```
+
+## Mis datos de contacto
+
+Para cualquier comentario puedes mandarme un correo electrónico a: [ivangm_01@hotmail.com](mailto:ivangm_01@hotmail.com "mailto:ivangm_01@hotmail.com").
